@@ -171,6 +171,7 @@ so it can access tools if needed.
     #self.labelMTimeAtStart = self.editUtil.getLabelVolume().GetImageData().GetMTime()
     sliceLogic = self.sliceWidget.sliceLogic()
     self.logic = KSliceEffectLogic( self.redSliceWidget.sliceLogic() )
+    self.logic.abortCommand = self.stop
 
     print("Starting")
     #qt.QTimer.singleShot(self.interval, self.iteration)
@@ -317,6 +318,7 @@ class KSliceEffectLogic(LabelEffect.LabelEffectLogic):
   def __init__(self,sliceLogic):
     self.fullInitialized=False                                                          #tracks if completed the initializtion (so can do stop correctly)
     self.sliceLogic = sliceLogic
+    self.abortCommand = None
     print("Made a KSliceEffectLogic")
 
 
@@ -353,6 +355,8 @@ class KSliceEffectLogic(LabelEffect.LabelEffectLogic):
     if type(self.backgroundNode)==type(None) or type(self.labelNode)==type(None):       #if red slice doesnt have a label or image, go no further
        self.dialogBox.setText("Either Image (must be Background Image) or Label not set in slice views.")
        self.dialogBox.show()
+       if self.abortCommand:
+         self.abortCommand()
        return
         
     volumesLogic        = slicer.modules.volumes.logic()
