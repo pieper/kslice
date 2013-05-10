@@ -36,6 +36,10 @@ vtkKSlice::vtkKSlice( ) {
 
 
 vtkKSlice::~vtkKSlice() {
+  if (this->UIVol)
+    {
+    this->SetUIVol(NULL);
+    }
   delete this->ksegmentor;
   std::cout<<"KSlice destroyed"<<std::endl;
 }
