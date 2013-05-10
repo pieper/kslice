@@ -5,7 +5,7 @@
 #include "vtkImageData.h"
 #include "KSandbox.h"
 #ifndef WIN32
-	#include <omp.h>
+	//#include <omp.h>
 #endif
 #include <string>
 #include <sstream>
